@@ -234,7 +234,7 @@
              const usableSeedTrees = filterOutDormantTrees(seedTrees);
              const allUsableTrees = usableBigTrees.concat(usableMediumTrees, usableSmallTrees);
  
-             if (usableBigTrees.length > 0 && sun >= 4 && day >= 12 && (dayIter < 1 || day >= 21)) {
+             if (usableBigTrees.length > 0 && sun >= 4 && day >= 16 && ((dayIter < 1 && (day%2==0)) || day >= 23)) {
                  //  if ((usableBigTrees.length > 0 && sun >= 12 && day < 12) ||
                  //      (usableBigTrees.length > 0 && sun >= 4 && day >= 12)) {
                  let best = findBestTree(usableBigTrees);
