@@ -3,7 +3,7 @@ var inputs = readline().split(' ');
 const baseX = parseInt(inputs[0]); // The corner of the map representing your base
 const baseY = parseInt(inputs[1]);
 const heroesPerPlayer = parseInt(readline()); // Always 3
-const maxX = 18000;
+const maxX = 17630;
 const maxY = 9000;
 const enemyX = Math.abs(baseX-maxX);
 const enemyY = Math.abs(baseY-maxY);
@@ -122,8 +122,16 @@ while (true) {
             threat = baseThreat;
         }
 
-        if (my_mana > 10 && ((homeDist > 9000) || (threats.length > 5) || (baseThreat && baseThreat.dist < 3000))) {
+        if (my_mana > 10 && (i === 0 || i === 2) && ((threats.length > 5) || (baseThreat && baseThreat.dist < 3000))) {
             console.log("SPELL WIND " + enemyX + " " + enemyY);
+        } else if (my_mana > 10 && homeDist > 9000) {
+            let closestMonster = findThreat(tx, ty, monsters);
+            if (closestMonster && closestMonster.dist < 1280) {
+                console.error("Attacker: dist=" + closestMonster.dist);
+                console.log("SPELL WIND " + enemyX + " " + enemyY);
+            } else {
+                console.log("WAIT");
+            }
         } else {
             let ntx, nty;
             if (threat && i != 1) {
