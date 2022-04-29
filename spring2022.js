@@ -29,8 +29,8 @@ const stance = (idx) => {
         x = 4000;
         y = 1000;
     } else if (idx === 1) {
-        x = 2000;
-        y = 2000;
+        x = 5000;
+        y = 3500;
     } else if (idx === 2) {
         x = 1000;
         y = 4000;
@@ -38,6 +38,10 @@ const stance = (idx) => {
     if (baseX > 1000) {
         x = maxX - x;
         y = maxY - y;
+    }
+    if (idx === 1) {
+        x = Math.abs(maxX - x);
+        y = Math.abs(maxY - y);
     }
     return [x, y];
 }
@@ -63,11 +67,15 @@ while (true) {
     let threats = [];
     let my_heroes = [];
     let op_heroes = [];
+    let my_mana = 0;
 
     for (let i = 0; i < 2; i++) {
         var inputs = readline().split(' ');
         const health = parseInt(inputs[0]); // Each player's base health
         const mana = parseInt(inputs[1]); // Ignore in the first league; Spend ten mana to cast a spell
+        if (i === 0) {
+            my_mana = mana;
+        }
     }
     const entityCount = parseInt(readline()); // Amount of heros and monsters you can see
     for (let i = 0; i < entityCount; i++) {
@@ -114,15 +122,11 @@ while (true) {
             threat = baseThreat;
         }
 
-        if (homeDist > 9000) {
-            console.log("SPELL WIND " + enemyX + " " + enemyY);
-        } else if (threats.length > 5) {
-            console.log("SPELL WIND " + enemyX + " " + enemyY);
-        } else if (i == 1 && baseThreat && baseThreat.dist < 3000) {
+        if (my_mana > 10 && ((homeDist > 9000) || (threats.length > 5) || (baseThreat && baseThreat.dist < 3000))) {
             console.log("SPELL WIND " + enemyX + " " + enemyY);
         } else {
             let ntx, nty;
-            if (threat) {
+            if (threat && i != 1) {
                 [ntx, nty] = betweenBase(threat.tx, threat.ty);
             } else {
                 [ntx, nty] = betweenBase(tx, ty);
